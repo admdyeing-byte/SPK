@@ -1,0 +1,105 @@
+{
+  "entities": {
+    "Evaluation": {
+      "title": "Employee Evaluation",
+      "description": "Represents an operator evaluation sheet",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "periode": { "type": "string" },
+        "noReg": { "type": "string" },
+        "nama": { "type": "string" },
+        "grup": { "type": "string" },
+        "nil1": { "type": "number" },
+        "nil2": { "type": "number" },
+        "average": { "type": "number" },
+        "submittedAt": { "type": "string", "format": "date-time" },
+        "jabatan": { "type": "string" },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "periode", "noReg", "nama", "grup", "nil1", "nil2", "average", "submittedAt"]
+    },
+    "Announcement": {
+      "title": "Admin Announcement",
+      "description": "Represents a temporary system-wide announcement broadcasted by the Admin",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "text", "createdAt"]
+    },
+    "HrmsRecord": {
+      "title": "HRMS Record",
+      "description": "Represents HRMS attendance and performance data for an employee in a period",
+      "type": "object",
+      "properties": {
+        "noReg": { "type": "string" },
+        "nama": { "type": "string" },
+        "kualitas": { "type": "number" },
+        "kuantitas": { "type": "number" },
+        "kehadiran": { "type": "number" },
+        "kedisiplinan": { "type": "number" },
+        "skor": { "type": "number" },
+        "periode": { "type": "string" }
+      },
+      "required": ["noReg", "nama", "kualitas", "kuantitas", "kehadiran", "kedisiplinan", "skor", "periode"]
+    },
+    "PresensiRecord": {
+      "title": "Presensi Record",
+      "description": "Represents employee presence/absence attendance data for a specific date/period",
+      "type": "object",
+      "properties": {
+        "noReg": { "type": "string" },
+        "nama": { "type": "string" },
+        "jabatan": { "type": "string" },
+        "grup": { "type": "string" },
+        "tanggal": { "type": "string" },
+        "presensi": { "type": "string" },
+        "keterangan": { "type": "string" },
+        "periode": { "type": "string" }
+      },
+      "required": ["noReg", "nama", "tanggal", "presensi", "periode"]
+    },
+    "Employee": {
+      "title": "Employee",
+      "description": "Represents a stable employee record synced with Google Sheets DBKaryawan sheet",
+      "type": "object",
+      "properties": {
+        "empId": { "type": "string" },
+        "noReg": { "type": "string" },
+        "nama": { "type": "string" },
+        "grup": { "type": "string" },
+        "jabatan": { "type": "string" }
+      },
+      "required": ["noReg", "nama", "grup"]
+    }
+  },
+  "firestore": {
+    "/evaluations/{evaluationId}": {
+      "schema": "Evaluation",
+      "description": "Store all evaluation forms by KSS operators"
+    },
+    "/announcements/{announcementId}": {
+      "schema": "Announcement",
+      "description": "Global administrator broadcast messages"
+    },
+    "/hrms_records/{recordId}": {
+      "schema": "HrmsRecord",
+      "description": "Store all hrms records from spreadsheet/input"
+    },
+    "/presensi_records/{recordId}": {
+      "schema": "PresensiRecord",
+      "description": "Store all presensi (absence/presence) records from spreadsheet"
+    },
+    "/employees/{employeeId}": {
+      "schema": "Employee",
+      "description": "Persistent master database of employees synced with DBKaryawan spreadsheet sheet"
+    },
+    "/spreadsheet_employees_master/{employeeId}": {
+      "schema": "Employee",
+      "description": "Safe, read-only master database of employees directly populated from Google Sheets DBKaryawan sheet"
+    }
+  }
+}

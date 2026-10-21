@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Employee Evaluations collection rules
+    match /evaluations/{evaluationId} {
+      allow read, write: if true;
+    }
+
+    // Admin Announcements collection rules
+    match /announcements/{announcementId} {
+      allow read, write: if true;
+    }
+
+    // HRMS Records collection rules
+    match /hrms_records/{recordId} {
+      allow read, write: if true;
+    }
+
+    // Presensi Records collection rules
+    match /presensi_records/{recordId} {
+      allow read, write: if true;
+    }
+
+    // Employees collection rules
+    match /employees/{employeeId} {
+      allow read, write: if true;
+    }
+
+    // Spreadsheet employees master collection rules
+    match /spreadsheet_employees_master/{employeeId} {
+      allow read, write: if true;
+    }
+
+    // Settings / Config collection rules
+    match /settings/{docId} {
+      allow read, write: if true;
+    }
+    
+    // Match anything else as default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

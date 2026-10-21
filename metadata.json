@@ -1,0 +1,6 @@
+{
+  "name": "SPK",
+  "description": "Sistem Penilaian Karyawan (SPK) Departemen Yarn Dyeing",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

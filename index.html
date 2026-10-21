@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="/manifest.json?v=1782518538609" />
+    <link rel="icon" type="image/jpeg" href="/app-logo.jpg?v=1782518538609" />
+    <link rel="apple-touch-icon" href="/app-logo.jpg?v=1782518538609" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="SPK" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>SPK - Sistem Penilaian Karyawan</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js?v=7')
+            .then((reg) => {
+              console.log('Service Worker registered successfully!', reg.scope);
+              
+              // Proactively check for updates immediately on registration
+              reg.update().catch(err => console.log('SW update check failed:', err));
+
+              // Proactively check for updates when user returns to/focuses the app (Crucial for Mobile PWA!)
+              document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                  console.log('App focused/foregrounded. Checking for updates...');
+                  reg.update().catch(err => console.log('SW update check failed on focus:', err));
+                }
+              });
+
+              // Proactively check for updates periodically (every 2 minutes)
+              setInterval(() => {
+                console.log('Periodic SW update check...');
+                reg.update().catch(err => console.log('SW periodic update check failed:', err));
+              }, 120000);
+              
+              // If there is already a waiting service worker (update ready)
+              if (reg.waiting) {
+                window.dispatchEvent(new CustomEvent('sw-update-available'));
+              }
+              
+              // Listen for update found
+              reg.onupdatefound = () => {
+                const installingWorker = reg.installing;
+                if (installingWorker) {
+                  installingWorker.onstatechange = () => {
+                    if (installingWorker.state === 'installed') {
+                      if (navigator.serviceWorker.controller) {
+                        // There's a new version waiting to be activated
+                        window.dispatchEvent(new CustomEvent('sw-update-available'));
+                      }
+                    }
+                  };
+                }
+              };
+            })
+            .catch((err) => console.log('Service Worker registration failed:', err));
+
+          // Listen for controlling service worker changes to automatically reload with new code
+          let refreshing = false;
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!refreshing) {
+              refreshing = true;
+              console.log('Service Worker controller changed, reloading page to apply update...');
+              window.location.reload();
+            }
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
+
