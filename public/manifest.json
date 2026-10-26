@@ -2,19 +2,20 @@
   "name": "Sistem Penilaian Karyawan",
   "short_name": "SPK",
   "description": "Sistem Penilaian Karyawan (SPK) Departemen Yarn Dyeing",
-  "start_url": "/",
+  "start_url": "/SPK/",
+  "scope": "/SPK/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
   "icons": [
     {
-      "src": "/app-logo.jpg?v=1782518538609",
+      "src": "/SPK/app-logo.jpg",
       "sizes": "512x512",
       "type": "image/jpeg",
       "purpose": "any"
     },
     {
-      "src": "/app-logo.jpg?v=1782518538609",
+      "src": "/SPK/app-logo.jpg",
       "sizes": "512x512",
       "type": "image/jpeg",
       "purpose": "maskable"
